@@ -8,7 +8,7 @@ Config virtualenv:
 
 ```bash
 $ git clone https://github.com/eadomenech/covid19barrace.git
-$ python3 -m venv env
+$ python3.7 -m venv env
 $ source env/bin/activate
 ```
 
