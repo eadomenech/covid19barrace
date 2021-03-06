@@ -1,0 +1,8 @@
+Celery
+uvicorn
+fastapi
+aiofiles
+numpy>=1.15.4
+pandas>=1.1.5
+matplotlib>=3.3.4
+redis
