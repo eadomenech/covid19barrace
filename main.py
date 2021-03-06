@@ -1,5 +1,3 @@
-import requests
-
 from fastapi import BackgroundTasks, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 
@@ -12,7 +10,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def root():
-    assert False, requests.get("http://127.0.0.1:8000/building")
     return {"message": "Hello World"}
 
 @app.get("/build")
