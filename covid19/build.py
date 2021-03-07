@@ -7,7 +7,7 @@ import matplotlib.animation as animation
 
 from confirmed_province import build_confirmed_data
 from deceased_province import build_deceased_data
-import utils
+from utils import utils
 
 
 def build_confirmed(date_end, intermediate_days=1):

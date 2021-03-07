@@ -1,7 +1,7 @@
 import json
 
 import pandas as pd
-from utils import date_range
+from utils.utils import date_range
 
 
 def build_deceased_data(date_end, intermediate_days=1):

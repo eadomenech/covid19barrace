@@ -3,7 +3,7 @@ from datetime import date
 
 from celery import Celery
 
-from build import build_confirmed, build_deceased
+from covid19.build import build_confirmed, build_deceased
 
 
 BROKER_URL = 'redis://localhost:6379/0'
