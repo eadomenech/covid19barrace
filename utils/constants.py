@@ -1,13 +1,20 @@
-from datetime import date, timedelta
 
+QUALITY = [(8.0, 4.8), (6.4, 4.8), (4.8, 3.6), (3.2, 2.4)]
 
-mesesDic = {
+PROVINCES = [
+    'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanzas',
+    'Cienfuegos', 'Villa Clara', 'Sancti Spíritus', 'Ciego de Ávila',
+    'Camagüey', 'Las Tunas', 'Holguín', 'Granma', 'Santiago de Cuba',
+    'Guantánamo', 'Isla de la Juventud'
+]
+
+MESES_DIC = {
     1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril',
     5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 9:'Septiembre',
     10:'Octubre', 11:'Noviembre', 12:'Diciembre'
 }
 
-normal_colors = {
+PROVINCES_COLOR = {
     'Pinar del Río': "#00553d",
     'Artemisa': "#fe0002",
     'La Habana': "#020085",
@@ -25,15 +32,3 @@ normal_colors = {
     'Guantánamo': "#515a57",
     'Isla de la Juventud': "#38b396"
 }
-
-def date_range(date_init, date_end, idays=1):
-        dater = []
-        date_current = date.fromisoformat(date_init)
-        date_end = date.fromisoformat(date_end)
-        oneDay = timedelta(days=+idays)
-        while date_current <= date_end:
-            dater.append(date_current.isoformat())
-            date_current += oneDay
-        if date_end.isoformat() not in dater:
-            dater.append(date_end.isoformat())
-        return dater
