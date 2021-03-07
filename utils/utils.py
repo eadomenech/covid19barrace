@@ -12,3 +12,7 @@ def date_range(date_init, date_end, idays=1):
     if date_end.isoformat() not in dater:
         dater.append(date_end.isoformat())
     return dater
+
+
+def pretty_resolution(resolution):
+    return f"{int(100 * resolution[0])}x{int(100 * resolution[1])}"

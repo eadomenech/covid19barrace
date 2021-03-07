@@ -1,4 +1,6 @@
 
+QUALITY = [(8.0, 4.8), (6.4, 4.8), (4.8, 3.6), (3.2, 2.4)]
+
 PROVINCES = [
     'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanzas',
     'Cienfuegos', 'Villa Clara', 'Sancti Spíritus', 'Ciego de Ávila',
