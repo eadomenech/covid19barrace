@@ -1,7 +1,8 @@
 import json
 
 import pandas as pd
-from utils import date_range
+from utils.utils import date_range
+from utils.constants import PROVINCES
 
 
 def build_confirmed_data(date_end, intermediate_days=1):
@@ -17,15 +18,8 @@ def build_confirmed_data(date_end, intermediate_days=1):
     confirmed_result['confirmed'] = []
     confirmed_result['accumulated_confirmed'] = []
 
-    provinces = [
-        'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanzas',
-        'Cienfuegos', 'Villa Clara', 'Sancti Spíritus', 'Ciego de Ávila',
-        'Camagüey', 'Las Tunas', 'Holguín', 'Granma', 'Santiago de Cuba',
-        'Guantánamo', 'Isla de la Juventud'
-    ]
-
     accumulated_confirmed = {}
-    for p in provinces:
+    for p in PROVINCES:
         accumulated_confirmed[p] = 0
 
     with open('data/covid19-cuba.json', 'r') as f:
@@ -34,7 +28,7 @@ def build_confirmed_data(date_end, intermediate_days=1):
     for caso in distros_dict['casos']['dias']:
         c = distros_dict['casos']['dias'][caso]
         if 'diagnosticados' in c:
-            for p in provinces:
+            for p in PROVINCES:
                 confirmed = 0
                 for d in c['diagnosticados']:
                     if d['provincia_detección'] == p:
@@ -57,7 +51,7 @@ def build_confirmed_data(date_end, intermediate_days=1):
 
     range_date = date_range('2020-03-11', date_end)
     for ran in range_date:
-        for pro in provinces:
+        for pro in PROVINCES:
             d = datos(ran, pro)
             if d == None:
                 confirmed_full_result['date'].append(ran)
@@ -99,15 +93,8 @@ def build_deceased_data(date_end, intermediate_days=1):
     deceased_result['deceased'] = []
     deceased_result['accumulated_deceased'] = []
 
-    provinces = [
-        'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanzas',
-        'Cienfuegos', 'Villa Clara', 'Sancti Spíritus', 'Ciego de Ávila',
-        'Camagüey', 'Las Tunas', 'Holguín', 'Granma', 'Santiago de Cuba',
-        'Guantánamo', 'Isla de la Juventud'
-    ]
-
     accumulated_deceased = {}
-    for p in provinces:
+    for p in PROVINCES:
         accumulated_deceased[p] = 0
 
     with open('data/covid19-fallecidos.json', 'r') as f:
@@ -116,7 +103,7 @@ def build_deceased_data(date_end, intermediate_days=1):
     for caso in distros_dict['casos']['dias']:
         c = distros_dict['casos']['dias'][caso]
         if 'fallecidos' in c:
-            for p in provinces:
+            for p in PROVINCES:
                 deceased = 0
                 for d in c['fallecidos']:
                     if d['provincia_detección'] == p:
@@ -139,7 +126,7 @@ def build_deceased_data(date_end, intermediate_days=1):
 
     range_date = date_range('2020-03-18', date_end)
     for ran in range_date:
-        for pro in provinces:
+        for pro in PROVINCES:
             d = datos(ran, pro)
             if d == None:
                 deceased_full_result['date'].append(ran)
