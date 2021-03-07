@@ -82,4 +82,5 @@ def build_confirmed_data(date_end, intermediate_days=1):
         date_range('2020-03-11', date_end, intermediate_days))]
 
     df.to_csv(
-        'data/province_confirmed_full.csv', index = False, header=True)
+        f"data/province_confirmed_{intermediate_days}.csv",
+        index = False, header=True)

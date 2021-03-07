@@ -14,7 +14,7 @@ def build_confirmed(date_end, intermediate_days=1):
 
     build_confirmed_data(date_end, intermediate_days=intermediate_days)
 
-    df = pd.read_csv ('data/province_confirmed_full.csv')
+    df = pd.read_csv (f"data/province_confirmed_{intermediate_days}.csv")
 
     mesesDic = utils.mesesDic
 
@@ -75,8 +75,8 @@ def build_confirmed(date_end, intermediate_days=1):
     fig, ax = plt.subplots(figsize=(15, 8))
     animator = animation.FuncAnimation(fig, draw_barchart, frames=dates)
     animator.save(
-        'static/confirmed.gif', writer='imagemagick', fps=6,
-        extra_args=['-loop','1'])
+        f"static/confirmed_h{intermediate_days}.gif",
+        writer='imagemagick', fps=6, extra_args=['-loop','1'])
 
     # os.system(
     #     'convert -size 1500x800 static/confirmed.gif -resize 750x400 download/confirmed.gif')
@@ -86,7 +86,7 @@ def build_deceased(date_end, intermediate_days=1):
 
     build_deceased_data(date_end, intermediate_days=intermediate_days)
 
-    df = pd.read_csv ('data/province_full_deceased.csv')
+    df = pd.read_csv (f"data/province_deceased_{intermediate_days}.csv")
 
     mesesDic = utils.mesesDic
 
@@ -147,8 +147,8 @@ def build_deceased(date_end, intermediate_days=1):
     fig, ax = plt.subplots(figsize=(15, 8))
     animator = animation.FuncAnimation(fig, draw_barchart, frames=dates)
     animator.save(
-        'static/deceased.gif', writer='imagemagick', fps=6,
-        extra_args=['-loop','1'])
+        f"static/deceased_h{intermediate_days}.gif",
+        writer='imagemagick', fps=6, extra_args=['-loop','1'])
 
     # os.system(
     #     'convert -size 1500x800 static/deceased.gif -resize 750x400 download/deceased.gif')

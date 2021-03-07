@@ -81,4 +81,5 @@ def build_deceased_data(date_end, intermediate_days=1):
         date_range('2020-03-13', date_end, intermediate_days))]
 
     df.to_csv(
-        'data/province_full_deceased.csv', index = False, header=True)
+        f"data/province_deceased_{intermediate_days}.csv",
+        index = False, header=True)

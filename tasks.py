@@ -22,9 +22,10 @@ def build():
     with open("download/update.txt", mode="w") as log:
         content = f"{date.today()}"
         log.write(content)
-    
-    build_confirmed(date_end, intermediate_days=5)
-    build_deceased(date_end, intermediate_days=5)
 
-    os.system('mv -u static/deceased.gif download/deceased.gif')
-    os.system('mv -u static/confirmed.gif download/confirmed.gif')
+    intermediate_days_list = [3, 5, 10]
+    for intermediate_days in intermediate_days_list:
+        build_confirmed(date_end, intermediate_days=intermediate_days)
+        build_deceased(date_end, intermediate_days=intermediate_days)
+        os.system(f"mv -u static/deceased_h{intermediate_days}.gif download/deceased_h{intermediate_days}.gif")
+        os.system(f"mv -u static/confirmed_h{intermediate_days}.gif download/confirmed_h{intermediate_days}.gif")
