@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import matplotlib.animation as animation
 
-from confirmed_province import build_confirmed_data
-from deceased_province import build_deceased_data
+from .data_generator import build_confirmed_data, build_deceased_data
 from utils import utils
 
 
