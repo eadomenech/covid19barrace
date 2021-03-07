@@ -10,9 +10,9 @@ from deceased_province import build_deceased_data
 import utils
 
 
-def build_confirmed(date_end):
+def build_confirmed(date_end, intermediate_days=1):
 
-    build_confirmed_data()
+    build_confirmed_data(date_end, intermediate_days=intermediate_days)
 
     df = pd.read_csv ('data/province_confirmed_full.csv')
 
@@ -68,7 +68,7 @@ def build_confirmed(date_end):
         plt.tight_layout()
         
     dates=pd.Series(pd.to_datetime(df['date'].unique()))
-    dates = dates.where(dates < date_end)
+    dates = dates.where(dates <= date_end)
     dates.dropna(inplace=True)
     dates = dates.astype(str)
 
@@ -82,9 +82,9 @@ def build_confirmed(date_end):
     #     'convert -size 1500x800 static/confirmed.gif -resize 750x400 download/confirmed.gif')
 
 
-def build_deceased(date_end):
+def build_deceased(date_end, intermediate_days=1):
 
-    build_deceased_data()
+    build_deceased_data(date_end, intermediate_days=intermediate_days)
 
     df = pd.read_csv ('data/province_full_deceased.csv')
 
@@ -140,7 +140,7 @@ def build_deceased(date_end):
         plt.tight_layout()
         
     dates=pd.Series(pd.to_datetime(df['date'].unique()))
-    dates = dates.where(dates < date_end)
+    dates = dates.where(dates <= date_end)
     dates.dropna(inplace=True)
     dates = dates.astype(str)
 

@@ -1,10 +1,10 @@
 import json
-from datetime import date, timedelta
 
 import pandas as pd
+from utils import date_range
 
 
-def build_confirmed_data():
+def build_confirmed_data(date_end, intermediate_days=1):
     confirmed_full_result = {}
     confirmed_full_result['date'] = []
     confirmed_full_result['province'] = []
@@ -23,17 +23,6 @@ def build_confirmed_data():
         'Camagüey', 'Las Tunas', 'Holguín', 'Granma', 'Santiago de Cuba',
         'Guantánamo', 'Isla de la Juventud'
     ]
-
-    def date_range(date_init, date_end):
-        dater = []
-        date_current = date.fromisoformat(date_init)
-        date_end = date.fromisoformat(date_end)
-        oneDay = timedelta(days =+ 1)
-        while date_current <= date_end:
-            dater.append(date_current.isoformat())
-            date_current += oneDay
-
-        return dater
 
     accumulated_confirmed = {}
     for p in provinces:
@@ -66,7 +55,7 @@ def build_confirmed_data():
                     confirmed_result['accumulated_confirmed'][i]]
         return None
 
-    range_date = date_range('2020-03-11', '2021-03-02')
+    range_date = date_range('2020-03-11', date_end)
     for ran in range_date:
         for pro in provinces:
             d = datos(ran, pro)
@@ -85,9 +74,12 @@ def build_confirmed_data():
                 accumulated_confirmed[pro] = d[3]
 
     df = pd.DataFrame(
-        confirmed_result,
+        confirmed_full_result,
         columns= [
             'date', 'province', 'confirmed', 'accumulated_confirmed'])
+
+    df = df[df['date'].isin(
+        date_range('2020-03-11', date_end, intermediate_days))]
 
     df.to_csv(
         'data/province_confirmed_full.csv', index = False, header=True)

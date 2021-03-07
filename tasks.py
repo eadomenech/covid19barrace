@@ -12,19 +12,19 @@ app = Celery('tasks', broker=BROKER_URL)
 @app.task
 def build():
 
-    date_end='2021-03-03'
+    date_end = str(date.today())
 
     os.system(
         'wget -O static/covid19cuba.zip https://github.com/covid19cubadata/covid19cubadata.github.io/raw/master/data/covid19cuba.zip')
 
-    os.system('unzip -u static/covid19cuba.zip')
+    os.system('unzip -o static/covid19cuba.zip')
 
-    with open("download/log.txt", mode="w") as log:
-        content = f"Build: {date.today()}"
+    with open("download/update.txt", mode="w") as log:
+        content = f"{date.today()}"
         log.write(content)
     
-    build_confirmed(date_end)
-    build_deceased(date_end)
-    
+    build_confirmed(date_end, intermediate_days=5)
+    build_deceased(date_end, intermediate_days=5)
+
     os.system('mv -u static/deceased.gif download/deceased.gif')
     os.system('mv -u static/confirmed.gif download/confirmed.gif')

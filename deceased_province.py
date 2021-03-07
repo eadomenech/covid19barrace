@@ -1,8 +1,10 @@
 import json
+
 import pandas as pd
+from utils import date_range
 
 
-def build_deceased_data():
+def build_deceased_data(date_end, intermediate_days=1):
     deceased_full_result = {}
     deceased_full_result['date'] = []
     deceased_full_result['province'] = []
@@ -21,19 +23,6 @@ def build_deceased_data():
         'Camagüey', 'Las Tunas', 'Holguín', 'Granma', 'Santiago de Cuba',
         'Guantánamo', 'Isla de la Juventud'
     ]
-
-    def date_range(date_init, date_end):
-        from datetime import timedelta
-        from datetime import date
-        dater = []
-        date_current = date.fromisoformat(date_init)
-        date_end = date.fromisoformat(date_end)
-        oneDay = timedelta(days=+1)
-        while date_current <= date_end:
-            dater.append(date_current.isoformat())
-            date_current += oneDay
-
-        return dater
 
     accumulated_deceased = {}
     for p in provinces:
@@ -66,7 +55,7 @@ def build_deceased_data():
                     deceased_result['accumulated_deceased'][i]]
         return None
 
-    range_date = date_range('2020-03-18', '2021-03-02')
+    range_date = date_range('2020-03-18', date_end)
     for ran in range_date:
         for pro in provinces:
             d = datos(ran, pro)
@@ -87,6 +76,9 @@ def build_deceased_data():
         deceased_full_result,
         columns= [
             'date', 'province', 'deceased', 'accumulated_deceased'])
+
+    df = df[df['date'].isin(
+        date_range('2020-03-13', date_end, intermediate_days))]
 
     df.to_csv(
         'data/province_full_deceased.csv', index = False, header=True)
