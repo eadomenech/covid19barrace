@@ -16,8 +16,8 @@ def build():
 
     date_end = str(date.today())
 
-    # os.system(
-    #     'wget -O static/covid19cuba.zip https://github.com/covid19cubadata/covid19cubadata.github.io/raw/master/data/covid19cuba.zip')
+    os.system(
+        'wget -O static/covid19cuba.zip https://github.com/covid19cubadata/covid19cubadata.github.io/raw/master/data/covid19cuba.zip')
 
     os.system('unzip -o static/covid19cuba.zip')
 
