@@ -73,7 +73,7 @@ def build_confirmed(date_end, intermediate_days=1, figsize=(15, 8)):
     animator = animation.FuncAnimation(fig, draw_barchart, frames=dates)
     animator.save(
         f"static/confirmed_{pretty_figsize}_{intermediate_days}.gif",
-        writer='imagemagick', fps=6, extra_args=['-loop','1'])
+        writer='imagemagick', fps=5, extra_args=['-loop','1'])
 
     # os.system(
     #     'convert -size 1500x800 static/confirmed.gif -resize 750x400 download/confirmed.gif')
@@ -142,7 +142,7 @@ def build_deceased(date_end, intermediate_days=1, figsize=(15, 8)):
     animator = animation.FuncAnimation(fig, draw_barchart, frames=dates)
     animator.save(
         f"static/deceased_{pretty_figsize}_{intermediate_days}.gif",
-        writer='imagemagick', fps=6, extra_args=['-loop','1'])
+        writer='imagemagick', fps=5, extra_args=['-loop','1'])
 
     # os.system(
     #     'convert -size 1500x800 static/deceased.gif -resize 750x400 download/deceased.gif')
