@@ -2,7 +2,7 @@ import json
 from datetime import date
 
 import pandas as pd
-from utils.utils import date_range
+from utils.utils import date_range, date_range_aux
 from utils.constants import PROVINCES
 
 
@@ -227,3 +227,94 @@ def build_confirmed_data_rank(date_end):
             'name', 'value', 'year', 'lastValue', 'rank'])
 
     df.to_csv(f"download/province_confirmed_rank.csv", index = False, header=True)
+
+
+def build_confirmed_data_rank2(date_end):
+    confirmed_full_result = {}
+    confirmed_full_result['year'] = []
+    confirmed_full_result['state'] = []
+    confirmed_full_result['region'] = []
+    confirmed_full_result['value'] = []
+    confirmed_full_result['rank'] = []
+
+    confirmed_result = {}
+    confirmed_result['date'] = []
+    confirmed_result['province'] = []
+    confirmed_result['confirmed'] = []
+    confirmed_result['accumulated_confirmed'] = []
+
+    accumulated_confirmed = {}
+    for p in PROVINCES:
+        accumulated_confirmed[p] = 0
+
+    with open('data/covid19-cuba.json', 'r') as f:
+        distros_dict = json.load(f)
+
+    for caso in distros_dict['casos']['dias']:
+        c = distros_dict['casos']['dias'][caso]
+        if 'diagnosticados' in c:
+            for p in PROVINCES:
+                confirmed = 0
+                for d in c['diagnosticados']:
+                    if d['provincia_detección'] == p:
+                        confirmed += 1
+                accumulated_confirmed[p] += confirmed
+                s = c['fecha'].split('/')
+                confirmed_result['date'].append("-".join(s))
+                confirmed_result['province'].append(p)
+                confirmed_result['confirmed'].append(confirmed)
+                confirmed_result['accumulated_confirmed'].append(
+                    accumulated_confirmed[p])
+
+    def datos(dat, pro):
+        for i in range(len(confirmed_result['date'])):
+            if date.fromisoformat(confirmed_result['date'][i]) > date.fromisoformat(dat):
+                break
+            if confirmed_result['province'][i] == pro:
+                if confirmed_result['date'][i] == dat:
+                    return [
+                        dat, pro, confirmed_result['confirmed'][i],
+                        confirmed_result['accumulated_confirmed'][i]]
+        return None
+    
+    def lastValue(pro):
+        for i in range(len(confirmed_full_result['year'])):
+            if confirmed_full_result['name'][i] == pro:
+                return confirmed_full_result['value'][i]
+        return 0
+
+    range_date = date_range('2020-03-11', date_end)
+    range_date_aux = date_range_aux('2020-03-11', date_end)
+    confirmed_full_result['state'] = PROVINCES
+    confirmed_full_result['region'] = PROVINCES
+    for item, dat in enumerate(range_date):
+        confirmed_full_result[f"{range_date_aux[item]}_date"] = []
+        for ip, pro in enumerate(PROVINCES):
+            d = datos(dat, pro)
+            if d:
+                confirmed_full_result[f"{range_date_aux[item]}_date"].append(d[3])
+            else:
+                if item == 0:
+                    confirmed_full_result[f"{range_date_aux[item]}_date"].append(0)
+                else:
+                    confirmed_full_result[f"{range_date_aux[item]}_date"].append(
+                        confirmed_full_result[f"{range_date_aux[item-1]}_date"][ip])
+        # if item == 1:
+        #     assert False, confirmed_full_result
+    # for it, ran in enumerate(range_date):
+    #     for item, pro in enumerate(PROVINCES):
+    #         d = datos(ran, pro)
+    #         r_final = f"{it/1000}"
+    #         if d:
+    #             confirmed_full_result['lastValue'].insert(
+    #             0, lastValue(pro))
+    #             confirmed_full_result['year'].insert(0, r_final)
+    #             confirmed_full_result['state'].append(d[1])
+    #             confirmed_full_result['value'].insert(0, d[3])
+    #             confirmed_full_result['rank'].insert(0, item+1)
+
+    df = pd.DataFrame(
+        confirmed_full_result,
+        columns= ['state', 'region'] + [dat+'_date' for dat in range_date_aux])
+
+    df.to_csv(f"download/province_confirmed_rank2.csv", index = False, header=True)

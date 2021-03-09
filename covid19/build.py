@@ -7,7 +7,7 @@ import matplotlib.animation as animation
 
 from .data_generator import (
         build_confirmed_data, build_deceased_data,
-        build_confirmed_data_rank)
+        build_confirmed_data_rank, build_confirmed_data_rank2)
 from utils.constants import MESES_DIC, PROVINCES_COLOR
 from utils.utils import pretty_resolution
 
@@ -15,6 +15,7 @@ from utils.utils import pretty_resolution
 def build_confirmed(date_end, intermediate_days=1, figsize=(15, 8)):
 
     build_confirmed_data_rank(date_end)
+    build_confirmed_data_rank2(date_end)
 
     pretty_figsize = pretty_resolution(figsize)
     build_confirmed_data(date_end, intermediate_days=intermediate_days)
